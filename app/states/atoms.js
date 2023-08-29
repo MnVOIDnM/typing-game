@@ -1,0 +1,11 @@
+import { atom } from "recoil";
+
+export const wordIndexState = atom({
+  key: "wordIndexState",
+  default: 0,
+});
+
+export const quizIndexState = atom({
+  key: "quizIndexState",
+  default: 0,
+});
