@@ -9,3 +9,8 @@ export const quizIndexState = atom({
   key: "quizIndexState",
   default: 0,
 });
+
+export const pressedKeysState = atom({
+  key: "pressedKeysState",
+  default: [],
+});

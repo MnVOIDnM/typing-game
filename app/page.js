@@ -1,30 +1,32 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { quizIndexState, wordIndexState } from "./states/atoms";
+import {
+  pressedKeysState,
+  quizIndexState,
+  wordIndexState,
+} from "./states/atoms";
 import { characterConditionState, typingWordState } from "./states/selectors";
-import { useState } from "react";
+import Keyboard from "./components/Keyboard";
 
 export default function Home() {
   const [wordIndex, setWordIndex] = useRecoilState(wordIndexState);
   const [quizIndex, setQuizIndex] = useRecoilState(quizIndexState);
-
+  const [pressedKeys, setPressedKeys] = useRecoilState(pressedKeysState);
   const [isStarted, setIsStarted] = useState(false);
-
   const typingWord = useRecoilValue(typingWordState);
   const characterCondition = useRecoilValue(characterConditionState);
 
-  function checkKeyPress(e) {
+  const typingRef = useRef(null);
+
+  function handleKeyDown(e) {
     if (e.key === characterCondition.current) {
       setWordIndex((prev) => prev + 1);
+    } else if (!pressedKeys.includes(e.key)) {
+      setPressedKeys([...pressedKeys, e.key]);
     }
-  }
 
-  function handleKeyPress(e) {
-    if (!isStarted) {
-      setIsStarted(true);
-    }
-    checkKeyPress(e);
     if (wordIndex + 1 >= typingWord.roman.length) {
       if (quizIndex + 1 >= 10) {
         setIsStarted(false);
@@ -34,30 +36,49 @@ export default function Home() {
       }
     }
   }
+  const handleKeyUp = (e) => {
+    setPressedKeys(pressedKeys.filter((pressedKey) => pressedKey !== e.key));
+  };
 
   const refreshAll = () => {
     setWordIndex(0);
-    setIsStarted(false);
+    setIsStarted((isStarted) => !isStarted);
     setQuizIndex(0);
   };
 
+  const onClick = () => {
+    typingRef.current && typingRef.current.focus();
+  };
+
+  useEffect(() => {
+    onClick();
+  }, []);
+
   return (
-    <div
-      onKeyDown={(e) => handleKeyPress(e)}
-      className="flex flex-col justify-center items-center gap-1 p-20 my-10 mx-20 rounded-2xl border-2 bg-gradient-to-b from-blue-500 to-blue-400"
-    >
-      <h className="text-lg text-white">{typingWord.kana}</h>
-      <h className="text-4xl text-white">{typingWord.japanese}</h>
-      <h className="text-5xl">
-        {characterCondition.past}
-        <mark className="text-white bg-slate-700 rounded-full">
-          {characterCondition.current}
-        </mark>
-        <span className="text-white">{characterCondition.upcoming}</span>
-      </h>
-      <button onClick={refreshAll} className="mt-10">
+    <div className="flex flex-col items-center p-3">
+      <div
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        onClick={onClick}
+        tabIndex={0}
+        ref={typingRef}
+        className="w-[780px] flex flex-col justify-center items-center py-20 px-4 my-5 rounded-lg border-2 bg-gradient-to-b from-blue-500 to-blue-400"
+      >
+        <h className="text-lg text-white">{typingWord.kana}</h>
+        <h className="text-4xl text-white">{typingWord.japanese}</h>
+        <h className="text-5xl">
+          {characterCondition.past}
+          <mark className="text-white bg-slate-500 rounded-lg">
+            {characterCondition.current}
+          </mark>
+          <span className="text-white">{characterCondition.upcoming}</span>
+        </h>
+        <span>click me</span>
+      </div>
+      <button onClick={refreshAll} className="">
         {isStarted ? "リセット" : "スタート"}
       </button>
+      <Keyboard />
     </div>
   );
 }
