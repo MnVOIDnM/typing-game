@@ -14,3 +14,8 @@ export const pressedKeysState = atom({
   key: "pressedKeysState",
   default: [],
 });
+
+export const isStartedState = atom({
+  key: "isStartedState",
+  default: false,
+});

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
+  isStartedState,
   pressedKeysState,
   quizIndexState,
   wordIndexState,
@@ -14,14 +15,14 @@ export default function Home() {
   const [wordIndex, setWordIndex] = useRecoilState(wordIndexState);
   const [quizIndex, setQuizIndex] = useRecoilState(quizIndexState);
   const [pressedKeys, setPressedKeys] = useRecoilState(pressedKeysState);
-  const [isStarted, setIsStarted] = useState(false);
+  const [isStarted, setIsStarted] = useRecoilState(isStartedState);
   const typingWord = useRecoilValue(typingWordState);
   const characterCondition = useRecoilValue(characterConditionState);
 
   const typingRef = useRef(null);
 
   function handleKeyDown(e) {
-    if (e.key === characterCondition.current) {
+    if (isStarted && e.key === characterCondition.current) {
       setWordIndex((prev) => prev + 1);
     } else if (!pressedKeys.includes(e.key)) {
       setPressedKeys([...pressedKeys, e.key]);
@@ -29,13 +30,13 @@ export default function Home() {
     if (e.key === "Escape") {
       refreshAll();
     }
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.key === " ") {
       setIsStarted(true);
     }
 
     if (wordIndex + 1 >= typingWord.roman.length) {
       if (quizIndex + 1 >= 10) {
-        setIsStarted(false);
+        refreshAll();
       } else {
         setQuizIndex((prev) => prev + 1);
         setWordIndex(0);
@@ -83,7 +84,12 @@ export default function Home() {
             </h>
           </div>
         ) : (
-          <div className="">Press Enter to start</div>
+          <div className="flex flex-col items-center text-white">
+            <h className="text-4xl p-4">
+              スペースキーかエンターキーではじめる。
+            </h>
+            <h className="text-md">Escキーでやめる。</h>
+          </div>
         )}
       </div>
 

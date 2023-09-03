@@ -2,11 +2,12 @@
 
 import { useRecoilValue } from "recoil";
 import { characterConditionState } from "../states/selectors";
-import { pressedKeysState } from "../states/atoms";
+import { isStartedState, pressedKeysState } from "../states/atoms";
 
 function Keyboard() {
   const characterCondition = useRecoilValue(characterConditionState);
   const pressedKeys = useRecoilValue(pressedKeysState);
+  const isStarted = useRecoilValue(isStartedState);
   const keys = [
     ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "^", "¥"],
     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "@", "["],
@@ -22,10 +23,10 @@ function Keyboard() {
             <span
               key={index}
               className={`inline-block px-5 py-3 m-1 rounded-lg shadow-sm ${
-                pressedKeys.includes(key)
+                isStarted && pressedKeys.includes(key)
                   ? "bg-orange-200"
-                  : key === characterCondition.current
-                  ? "bg-blue-200 ring-2 ring-offset- outline-note"
+                  : isStarted && key === characterCondition.current
+                  ? "bg-blue-200 ring-2"
                   : "bg-white"
               }`}
             >
