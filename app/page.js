@@ -26,6 +26,12 @@ export default function Home() {
     } else if (!pressedKeys.includes(e.key)) {
       setPressedKeys([...pressedKeys, e.key]);
     }
+    if (e.key === "Escape") {
+      refreshAll();
+    }
+    if (e.key === "Enter") {
+      setIsStarted(true);
+    }
 
     if (wordIndex + 1 >= typingWord.roman.length) {
       if (quizIndex + 1 >= 10) {
@@ -42,7 +48,7 @@ export default function Home() {
 
   const refreshAll = () => {
     setWordIndex(0);
-    setIsStarted((isStarted) => !isStarted);
+    setIsStarted(false);
     setQuizIndex(0);
   };
 
@@ -62,22 +68,25 @@ export default function Home() {
         onClick={onClick}
         tabIndex={0}
         ref={typingRef}
-        className="w-[780px] flex flex-col justify-center items-center py-20 px-4 my-5 rounded-lg border-2 bg-gradient-to-b from-blue-500 to-blue-400"
+        className="flex items-center justify-center w-[780px] h-[200px] p-5 my-5 rounded-lg bg-gradient-to-b from-blue-500 to-blue-400 outline-none"
       >
-        <h className="text-lg text-white">{typingWord.kana}</h>
-        <h className="text-4xl text-white">{typingWord.japanese}</h>
-        <h className="text-5xl">
-          {characterCondition.past}
-          <mark className="text-white bg-slate-500 rounded-lg">
-            {characterCondition.current}
-          </mark>
-          <span className="text-white">{characterCondition.upcoming}</span>
-        </h>
-        <span>click me</span>
+        {isStarted ? (
+          <div className="flex flex-col items-center">
+            <h className="text-lg text-white">{typingWord.kana}</h>
+            <h className="text-4xl text-white">{typingWord.japanese}</h>
+            <h className="text-5xl">
+              {characterCondition.past}
+              <mark className="text-white bg-slate-500 rounded-lg">
+                {characterCondition.current}
+              </mark>
+              <span className="text-white">{characterCondition.upcoming}</span>
+            </h>
+          </div>
+        ) : (
+          <div className="">Press Enter to start</div>
+        )}
       </div>
-      <button onClick={refreshAll} className="">
-        {isStarted ? "リセット" : "スタート"}
-      </button>
+
       <Keyboard />
     </div>
   );
