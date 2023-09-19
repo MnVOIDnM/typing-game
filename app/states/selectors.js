@@ -6,7 +6,9 @@ export const typingWordState = selector({
   key: "typingWordState",
   get: ({ get }) => {
     const quizIndex = get(quizIndexState);
-    const word = dictionary[quizIndex];
+    // const word = dictionary[quizIndex];
+    const word =
+      dictionary[Math.floor(Math.random() * dictionary.length)];
     return word;
   },
 });

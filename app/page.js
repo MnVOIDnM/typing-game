@@ -8,13 +8,17 @@ import {
   quizIndexState,
   wordIndexState,
 } from "./states/atoms";
-import { characterConditionState, typingWordState } from "./states/selectors";
+import {
+  characterConditionState,
+  typingWordState,
+} from "./states/selectors";
 import Keyboard from "./components/Keyboard";
 
 export default function Home() {
   const [wordIndex, setWordIndex] = useRecoilState(wordIndexState);
   const [quizIndex, setQuizIndex] = useRecoilState(quizIndexState);
-  const [pressedKeys, setPressedKeys] = useRecoilState(pressedKeysState);
+  const [pressedKeys, setPressedKeys] =
+    useRecoilState(pressedKeysState);
   const [isStarted, setIsStarted] = useRecoilState(isStartedState);
   const typingWord = useRecoilValue(typingWordState);
   const characterCondition = useRecoilValue(characterConditionState);
@@ -44,7 +48,9 @@ export default function Home() {
     }
   }
   const handleKeyUp = (e) => {
-    setPressedKeys(pressedKeys.filter((pressedKey) => pressedKey !== e.key));
+    setPressedKeys(
+      pressedKeys.filter((pressedKey) => pressedKey !== e.key)
+    );
   };
 
   const refreshAll = () => {
@@ -74,13 +80,17 @@ export default function Home() {
         {isStarted ? (
           <div className="flex flex-col items-center">
             <h className="text-lg text-white">{typingWord.kana}</h>
-            <h className="text-4xl text-white">{typingWord.japanese}</h>
+            <h className="text-4xl text-white">
+              {typingWord.japanese}
+            </h>
             <h className="text-5xl">
               {characterCondition.past}
               <mark className="text-white bg-slate-500 rounded-lg">
                 {characterCondition.current}
               </mark>
-              <span className="text-white">{characterCondition.upcoming}</span>
+              <span className="text-white">
+                {characterCondition.upcoming}
+              </span>
             </h>
           </div>
         ) : (
@@ -92,7 +102,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
       <Keyboard />
     </div>
   );

@@ -9,4 +9,9 @@ export const dictionary = [
   { id: 8, japanese: "カエル", kana: "かえる", roman: "kaeru" },
   { id: 9, japanese: "ゴリラ", kana: "ごりら", roman: "gorira" },
   { id: 10, japanese: "魚", kana: "さかな", roman: "sakana" },
+  { id: 11, japanese: "キリン", kana: "きりん", roman: "kirin" },
+  { id: 12, japanese: "ゾウ", kana: "ぞう", roman: "zou" },
+  { id: 13, japanese: "アヒル", kana: "あひる", roman: "ahiru" },
+  { id: 14, japanese: "クマ", kana: "くま", roman: "kuma" },
+  { id: 15, japanese: "ライオン", kana: "らいおん", roman: "raion" },
 ];
