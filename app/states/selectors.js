@@ -1,6 +1,6 @@
 import { selector } from "recoil";
 import { quizIndexState, wordIndexState } from "./atoms";
-import { dictionary } from "../dictionary";
+import { dictionary } from "../utils/dictionary";
 
 export const typingWordState = selector({
   key: "typingWordState",
@@ -19,9 +19,9 @@ export const characterConditionState = selector({
     const word = get(typingWordState);
     const index = get(wordIndexState);
     return {
-      past: word.roman.slice(0, index),
-      current: word.roman[index],
-      upcoming: word.roman.slice(index + 1, word.length),
+      past: word.romaji.slice(0, index),
+      current: word.romaji[index],
+      upcoming: word.romaji.slice(index + 1, word.length),
     };
   },
 });
