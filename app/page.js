@@ -38,7 +38,7 @@ export default function Home() {
       setIsStarted(true);
     }
 
-    if (wordIndex + 1 >= typingWord.roman.length) {
+    if (wordIndex + 1 >= typingWord.romaji.length) {
       if (quizIndex + 1 >= 10) {
         refreshAll();
       } else {
@@ -79,11 +79,11 @@ export default function Home() {
       >
         {isStarted ? (
           <div className="flex flex-col items-center">
-            <h className="text-lg text-white">{typingWord.kana}</h>
-            <h className="text-4xl text-white">
+            <h1 className="text-lg text-white">{typingWord.kana}</h1>
+            <h1 className="text-4xl text-white">
               {typingWord.japanese}
-            </h>
-            <h className="text-5xl">
+            </h1>
+            <h1 className="text-5xl">
               {characterCondition.past}
               <mark className="text-white bg-slate-500 rounded-lg">
                 {characterCondition.current}
@@ -91,14 +91,14 @@ export default function Home() {
               <span className="text-white">
                 {characterCondition.upcoming}
               </span>
-            </h>
+            </h1>
           </div>
         ) : (
           <div className="flex flex-col items-center text-white">
-            <h className="text-4xl p-4">
+            <h1 className="text-4xl p-4">
               スペースキーかエンターキーではじめる。
-            </h>
-            <h className="text-md">Escキーでやめる。</h>
+            </h1>
+            <h1 className="text-md">Escキーでやめる。</h1>
           </div>
         )}
       </div>
